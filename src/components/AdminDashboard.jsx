@@ -6,9 +6,11 @@ const AdminDashboard = () => {
     const { isLoggedIn } = useContext(AppContext);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchUsers = async () => {
+            setLoading(true);
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.get('/api/admin/users', {
@@ -20,6 +22,8 @@ const AdminDashboard = () => {
             } catch (error) {
                 console.error('Error fetching users:', error);
                 setError('Failed to load users.');
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -73,6 +77,7 @@ const AdminDashboard = () => {
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-2xl font-bold mb-4">Admin Dashboard</h2>
+            {loading && <p>Loading...</p>}
             {error && <div className="text-red-500 mb-4">{error}</div>}
             <table className="w-full border-collapse border border-gray-300">
                 <thead>

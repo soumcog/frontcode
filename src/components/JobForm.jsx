@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../App';
 
 const JobForm = () => {
-    const { isLoggedIn } = React.useContext(AppContext);
+    const { isLoggedIn } = useContext(AppContext);
     const navigate = useNavigate();
-    const { id } = useParams(); // For edit mode
+    const { id } = useParams();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -18,7 +18,6 @@ const JobForm = () => {
 
     useEffect(() => {
         if (id) {
-            // Fetch job details if in edit mode
             const fetchJob = async () => {
                 try {
                     const token = localStorage.getItem('token');
@@ -47,21 +46,19 @@ const JobForm = () => {
         try {
             const token = localStorage.getItem('token');
             if (id) {
-                // Update job
                 await axios.put(`/api/jobs/${id}`, formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
             } else {
-                // Create job
                 await axios.post('/api/jobs', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
             }
-            navigate('/'); // Redirect to home after success
+            navigate('/');
         } catch (error) {
             console.error('Error saving job:', error);
             setError('Failed to save job. Please try again.');
@@ -76,7 +73,7 @@ const JobForm = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            navigate('/'); // Redirect to home after deletion
+            navigate('/');
         } catch (error) {
             console.error('Error deleting job:', error);
             setError('Failed to delete job. Please try again.');

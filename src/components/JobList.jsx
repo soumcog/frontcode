@@ -7,9 +7,11 @@ const JobList = () => {
     const { isLoggedIn } = useContext(AppContext);
     const [jobs, setJobs] = useState([]);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchJobs = async () => {
+            setLoading(true);
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.get('/api/jobs', {
@@ -25,6 +27,8 @@ const JobList = () => {
                 } else {
                     setError('Failed to load jobs.');
                 }
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -38,8 +42,9 @@ const JobList = () => {
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-2xl font-bold mb-4">Available Jobs</h2>
+            {loading && <p>Loading...</p>}
             {error && <div className="text-red-500 mb-4">{error}</div>}
-            {jobs.length === 0 && !error && <p>No jobs available.</p>}
+            {!loading && jobs.length === 0 && !error && <p>No jobs available.</p>}
             <ul>
                 {jobs.map((job) => (
                     <li key={job.id} className="border rounded p-4 mb-4">
@@ -47,6 +52,7 @@ const JobList = () => {
                         <p>{job.description}</p>
                         <p>Reward: {job.reward}</p>
                         <p>Category: {job.category}</p>
+                        <p>Status: {job.status}</p>
                         {isLoggedIn && (
                             <Link
                                 to={`/edit-job/${job.id}`}

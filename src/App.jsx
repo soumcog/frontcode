@@ -3,7 +3,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
 import JobForm from './components/JobForm';
-import AdminDashboard from './components/AdminDashboard'; // Import AdminDashboard
+import AdminDashboard from './components/AdminDashboard';
 import { useState, useEffect, createContext } from 'react';
 
 export const AppContext = createContext();
@@ -17,8 +17,10 @@ function App() {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        setIsLoggedIn(false);
+        if (window.confirm('Are you sure you want to log out?')) {
+            localStorage.removeItem('token');
+            setIsLoggedIn(false);
+        }
     };
 
     return (
