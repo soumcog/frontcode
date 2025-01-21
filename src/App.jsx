@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
-import JobForm from './components/JobForm'; // Import JobForm
+import JobForm from './components/JobForm';
+import AdminDashboard from './components/AdminDashboard'; // Import AdminDashboard
 import { useState, useEffect, createContext } from 'react';
 
 export const AppContext = createContext();
@@ -36,6 +37,7 @@ function App() {
                             {isLoggedIn && (
                                 <>
                                     <li><Link to="/create-job" className="text-blue-500 hover:underline">Create Job</Link></li>
+                                    <li><Link to="/admin" className="text-blue-500 hover:underline">Admin Dashboard</Link></li>
                                     <li><button onClick={handleLogout} className="text-blue-500 hover:underline">Logout</button></li>
                                 </>
                             )}
@@ -47,6 +49,7 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/create-job" element={<JobForm />} />
                         <Route path="/edit-job/:id" element={<JobForm />} />
+                        <Route path="/admin" element={<AdminDashboard />} />
                     </Routes>
                 </div>
             </AppContext.Provider>
