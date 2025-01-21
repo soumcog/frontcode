@@ -140,7 +140,7 @@ const JobForm = () => {
                 </select>
                 <button
                     type="submit"
-                    className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
                 >
                     {id ? 'Update Job' : 'Create Job'}
                 </button>
@@ -148,7 +148,7 @@ const JobForm = () => {
                     <button
                         type="button"
                         onClick={handleDelete}
-                        className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
+                        className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
                     >
                         Delete Job
                     </button>

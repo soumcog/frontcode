@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AppContext } from '../App';
 import { Link } from 'react-router-dom';
+import Spinner from './Spinner'; // Import Spinner
 
 const JobList = () => {
     const { isLoggedIn } = useContext(AppContext);
@@ -42,28 +43,32 @@ const JobList = () => {
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-2xl font-bold mb-4">Available Jobs</h2>
-            {loading && <p>Loading...</p>}
+            {loading && <Spinner />} {/* Use Spinner */}
             {error && <div className="text-red-500 mb-4">{error}</div>}
             {!loading && jobs.length === 0 && !error && <p>No jobs available.</p>}
-            <ul>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {jobs.map((job) => (
-                    <li key={job.id} className="border rounded p-4 mb-4">
-                        <h3 className="text-lg font-semibold">{job.title}</h3>
-                        <p>{job.description}</p>
-                        <p>Reward: {job.reward}</p>
-                        <p>Category: {job.category}</p>
-                        <p>Status: {job.status}</p>
-                        {isLoggedIn && (
-                            <Link
-                                to={`/edit-job/${job.id}`}
-                                className="text-blue-500 hover:underline"
-                            >
-                                Edit
-                            </Link>
-                        )}
-                    </li>
+                    <div key={job.id} className="bg-white rounded-lg shadow-md p-6">
+                        <h3 className="text-xl font-semibold mb-2">{job.title}</h3>
+                        <p className="text-gray-600 mb-4">{job.description}</p>
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="text-sm text-gray-500">Reward: ${job.reward}</span>
+                            <span className="text-sm text-gray-500">Category: {job.category}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-500">Status: {job.status}</span>
+                            {isLoggedIn && (
+                                <Link
+                                    to={`/edit-job/${job.id}`}
+                                    className="text-blue-500 hover:text-blue-600 transition duration-300"
+                                >
+                                    Edit
+                                </Link>
+                            )}
+                        </div>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

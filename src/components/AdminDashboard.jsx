@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AppContext } from '../App';
+import Spinner from './Spinner'; // Import Spinner
 
 const AdminDashboard = () => {
     const { isLoggedIn } = useContext(AppContext);
@@ -77,7 +78,7 @@ const AdminDashboard = () => {
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-2xl font-bold mb-4">Admin Dashboard</h2>
-            {loading && <p>Loading...</p>}
+            {loading && <Spinner />} {/* Use Spinner */}
             {error && <div className="text-red-500 mb-4">{error}</div>}
             <table className="w-full border-collapse border border-gray-300">
                 <thead>
@@ -109,7 +110,7 @@ const AdminDashboard = () => {
                             <td className="border border-gray-300 p-2">
                                 <button
                                     onClick={() => handleDeleteUser(user.id)}
-                                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
+                                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300"
                                 >
                                     Delete
                                 </button>
